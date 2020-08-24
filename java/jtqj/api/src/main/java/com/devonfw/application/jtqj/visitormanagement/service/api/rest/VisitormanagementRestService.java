@@ -16,52 +16,50 @@ import com.devonfw.application.jtqj.visitormanagement.logic.api.to.VisitorEto;
 import com.devonfw.application.jtqj.visitormanagement.logic.api.to.VisitorSearchCriteriaTo;
 
 /**
- * The service interface for REST calls in order to execute the logic of
- * component {@link Visitormanagement}.
+ * The service interface for REST calls in order to execute the logic of component {@link Visitormanagement}.
  */
 @Path("/visitormanagement/v1")
 @Consumes(MediaType.APPLICATION_JSON)
 @Produces(MediaType.APPLICATION_JSON)
 public interface VisitormanagementRestService {
 
-	/**
-	 * Delegates to {@link Visitormanagement#findVisitor}.
-	 *
-	 * @param id the ID of the {@link VisitorEto}
-	 * @return the {@link VisitorEto}
-	 */
-	@GET
-	@Path("/visitor/{id}/")
-	public VisitorEto getVisitor(@PathParam("id") long id);
+  /**
+   * Delegates to {@link Visitormanagement#findVisitor}.
+   *
+   * @param id the ID of the {@link VisitorEto}
+   * @return the {@link VisitorEto}
+   */
+  @GET
+  @Path("/visitor/{id}/")
+  public VisitorEto getVisitor(@PathParam("id") long id);
 
-	/**
-	 * Delegates to {@link Visitormanagement#saveVisitor}.
-	 *
-	 * @param visitor the {@link VisitorEto} to be saved
-	 * @return the recently created {@link VisitorEto}
-	 */
-	@POST
-	@Path("/visitor/")
-	public VisitorEto saveVisitor(VisitorEto visitor);
+  /**
+   * Delegates to {@link Visitormanagement#saveVisitor}.
+   *
+   * @param visitor the {@link VisitorEto} to be saved
+   * @return the recently created {@link VisitorEto}
+   */
+  @POST
+  @Path("/visitor/")
+  public VisitorEto saveVisitor(VisitorEto visitor);
 
-	/**
-	 * Delegates to {@link Visitormanagement#deleteVisitor}.
-	 *
-	 * @param id ID of the {@link VisitorEto} to be deleted
-	 */
-	@DELETE
-	@Path("/visitor/{id}/")
-	public void deleteVisitor(@PathParam("id") long id);
+  /**
+   * Delegates to {@link Visitormanagement#deleteVisitor}.
+   *
+   * @param id ID of the {@link VisitorEto} to be deleted
+   */
+  @DELETE
+  @Path("/visitor/{id}/")
+  public void deleteVisitor(@PathParam("id") long id);
 
-	/**
-	 * Delegates to {@link Visitormanagement#findVisitorEtos}.
-	 *
-	 * @param searchCriteriaTo the pagination and search criteria to be used for
-	 *                         finding visitors.
-	 * @return the {@link Page list} of matching {@link VisitorEto}s.
-	 */
-	@Path("/visitor/search")
-	@POST
-	public Page<VisitorEto> findVisitors(VisitorSearchCriteriaTo searchCriteriaTo);
+  /**
+   * Delegates to {@link Visitormanagement#findVisitorEtos}.
+   *
+   * @param searchCriteriaTo the pagination and search criteria to be used for finding visitors.
+   * @return the {@link Page list} of matching {@link VisitorEto}s.
+   */
+  @Path("/visitor/search")
+  @POST
+  public Page<VisitorEto> findVisitors(VisitorSearchCriteriaTo searchCriteriaTo);
 
 }

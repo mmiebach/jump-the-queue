@@ -13,128 +13,155 @@ import com.devonfw.application.jtqj.visitormanagement.common.api.Visitor;
 @Table(name = "Visitor")
 public class VisitorEntity extends ApplicationPersistenceEntity implements Visitor {
 
+  @NotNull
+  @EmailExtended
+  private String username;
 
-	@NotNull
-	@EmailExtended
-	private String username;
+  @NotNull
+  private String name;
 
-	@NotNull
-	private String name;
+  @Phone
+  @NotNull
+  private String phoneNumber;
 
-	@Phone
-	@NotNull
-	private String phoneNumber;
+  @NotNull
+  private String password;
 
-	@NotNull
-	private String password;
+  @NotNull
+  private Boolean acceptedCommercial;
 
-	@NotNull
-	private Boolean acceptedCommercial;
+  @NotNull
+  private Boolean acceptedTerms;
 
-	@NotNull
-	private Boolean acceptedTerms;
+  @NotNull
+  private Boolean userType;
 
-	@NotNull
-	private Boolean userType;
+  private static final long serialVersionUID = 1L;
 
-	private static final long serialVersionUID = 1L;
+  /**
+   * @return the username
+   */
+  @Override
+  public String getUsername() {
 
-	/**
-	 * @return the username
-	 */
-	public String getUsername() {
-		return username;
-	}
+    return this.username;
+  }
 
-	/**
-	 * @param username the username to set
-	 */
-	public void setUsername(String username) {
-		this.username = username;
-	}
+  /**
+   * @param username the username to set
+   */
+  @Override
+  public void setUsername(String username) {
 
-	/**
-	 * @return the name
-	 */
-	public String getName() {
-		return name;
-	}
+    this.username = username;
+  }
 
-	/**
-	 * @param name the name to set
-	 */
-	public void setName(String name) {
-		this.name = name;
-	}
+  /**
+   * @return the name
+   */
+  @Override
+  public String getName() {
 
-	/**
-	 * @return the phoneNumber
-	 */
-	public String getPhoneNumber() {
-		return phoneNumber;
-	}
+    return this.name;
+  }
 
-	/**
-	 * @param phoneNumber the phoneNumber to set
-	 */
-	public void setPhoneNumber(String phoneNumber) {
-		this.phoneNumber = phoneNumber;
-	}
+  /**
+   * @param name the name to set
+   */
+  @Override
+  public void setName(String name) {
 
-	/**
-	 * @return the password
-	 */
-	public String getPassword() {
-		return password;
-	}
+    this.name = name;
+  }
 
-	/**
-	 * @param password the password to set
-	 */
-	public void setPassword(String password) {
-		this.password = password;
-	}
+  /**
+   * @return the phoneNumber
+   */
+  @Override
+  public String getPhoneNumber() {
 
-	/**
-	 * @return the acceptedCommercial
-	 */
-	public Boolean getAcceptedCommercial() {
-		return acceptedCommercial;
-	}
+    return this.phoneNumber;
+  }
 
-	/**
-	 * @param acceptedCommercial the acceptedCommercial to set
-	 */
-	public void setAcceptedCommercial(Boolean acceptedCommercial) {
-		this.acceptedCommercial = acceptedCommercial;
-	}
+  /**
+   * @param phoneNumber the phoneNumber to set
+   */
+  @Override
+  public void setPhoneNumber(String phoneNumber) {
 
-	/**
-	 * @return the acceptedTerms
-	 */
-	public Boolean getAcceptedTerms() {
-		return acceptedTerms;
-	}
+    this.phoneNumber = phoneNumber;
+  }
 
-	/**
-	 * @param acceptedTerms the acceptedTerms to set
-	 */
-	public void setAcceptedTerms(Boolean acceptedTerms) {
-		this.acceptedTerms = acceptedTerms;
-	}
+  /**
+   * @return the password
+   */
+  @Override
+  public String getPassword() {
 
-	/**
-	 * @return the userType
-	 */
-	public Boolean getUserType() {
-		return userType;
-	}
+    return this.password;
+  }
 
-	/**
-	 * @param userType the userType to set
-	 */
-	public void setUserType(Boolean userType) {
-		this.userType = userType;
-	}
+  /**
+   * @param password the password to set
+   */
+  @Override
+  public void setPassword(String password) {
+
+    this.password = password;
+  }
+
+  /**
+   * @return the acceptedCommercial
+   */
+  @Override
+  public Boolean getAcceptedCommercial() {
+
+    return this.acceptedCommercial;
+  }
+
+  /**
+   * @param acceptedCommercial the acceptedCommercial to set
+   */
+  @Override
+  public void setAcceptedCommercial(Boolean acceptedCommercial) {
+
+    this.acceptedCommercial = acceptedCommercial;
+  }
+
+  /**
+   * @return the acceptedTerms
+   */
+  @Override
+  public Boolean getAcceptedTerms() {
+
+    return this.acceptedTerms;
+  }
+
+  /**
+   * @param acceptedTerms the acceptedTerms to set
+   */
+  @Override
+  public void setAcceptedTerms(Boolean acceptedTerms) {
+
+    this.acceptedTerms = acceptedTerms;
+  }
+
+  /**
+   * @return the userType
+   */
+  @Override
+  public Boolean getUserType() {
+
+    return this.userType;
+  }
+
+  /**
+   * @param userType the userType to set
+   */
+  @Override
+  public void setUserType(Boolean userType) {
+
+    this.userType = userType;
+  }
 
 }

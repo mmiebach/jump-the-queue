@@ -38,6 +38,7 @@ export class LoginService {
                     this.authService.setUserId(visitorFound.id);
                     this.authService.setLogged(true);
                     this.authService.setUser(visitorFound.username);
+                    this.authService.setName(visitorFound.name);
                     if (visitorFound.userType === false) {
                         this.authService.setRole('VISITOR');
                         this.router.navigate(['ViewQueue']);

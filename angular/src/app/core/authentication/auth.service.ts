@@ -10,6 +10,15 @@ export class AuthService {
   private userId = 0;
   private currentRole = 'CUSTOMER';
   private token: string;
+  private name = '';
+
+  public setName(name: string): void {
+    this.name = name;
+  }
+
+  public getName(): string {
+    return this.name;
+  }
 
   public isLogged(): boolean {
     return this.logged;

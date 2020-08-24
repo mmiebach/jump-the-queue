@@ -17,4 +17,5 @@ export class HeaderComponent implements OnInit {
   onClickLogout(): void {
     this.loginService.logout();
   }
+
 }

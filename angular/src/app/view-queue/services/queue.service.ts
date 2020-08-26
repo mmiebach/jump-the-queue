@@ -26,5 +26,6 @@ export class QueueService {
     .pipe(
          map(queues => queues['content'][0]),
      );
-  }
+    }
+
 }

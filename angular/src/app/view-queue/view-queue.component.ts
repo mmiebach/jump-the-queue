@@ -5,6 +5,7 @@ import { AccessCodeService } from './services/access-code.service';
 import { tap, catchError } from 'rxjs/operators';
 import { AuthService } from '../core/authentication/auth.service';
 import { QueueService } from './services/queue.service';
+import { RemainingCodes } from '../shared/backendModels/interfaces';
 
 @Component({
   selector: 'app-view-queue',
@@ -16,6 +17,7 @@ export class ViewQueueComponent implements OnInit {
   accessCodeAttended$: Observable<AccessCode>;
   accessCodeVisitor$: Observable<AccessCode>;
   queue$: Observable<Queue>;
+  remaining$: Observable<RemainingCodes>;
 
   constructor(private accessCodeService: AccessCodeService, private queueService: QueueService, private authService: AuthService) { }
 
@@ -23,6 +25,10 @@ export class ViewQueueComponent implements OnInit {
     this.accessCodeAttended$ = this.accessCodeService.getCurrentlyAttendedAccessCode();
     this.accessCodeVisitor$ = this.accessCodeService.getVisitorAccessCode(this.authService.getUserId());
     this.queue$ = this.queueService.getActiveQueue();
+  }
+
+  onRemainingCodes(queueId: number) {
+    this.remaining$ = this.accessCodeService.getRemainingCodesCount(this.authService.getUserId(), queueId);
   }
 
   onJoinQueue(queueId: number): void {

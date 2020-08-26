@@ -1,7 +1,8 @@
 <td-layout *ngIf="{
   accessCodeAttended: accessCodeAttended$ | async,
   accessCodeVisitor: accessCodeVisitor$  | async,
-  queue: queue$ | async
+  queue: queue$ | async,
+  remaining: remaining$ | async
 } as data;">
   <div *ngIf="data.queue">
     <mat-card>
@@ -28,6 +29,12 @@
       </div>
       <div style="border-top: 2px solid black;" class="pad-bottom-lg pad-top-lg text-center row" *ngIf="data.accessCodeVisitor === null">
         <button mat-raised-button (click)="onJoinQueue(data.queue.id)" color="primary" class="text-upper">Join the queue</button> 
+      </div>
+      <div style="border-top: 2px solid black;" class="pad-bottom-lg pad-top-lg text-center row">
+        <button mat-raised-button (click)="onRemainingCodes(data.queue.id)" color="primary" class="text-upper">Update Remaining Codes</button>
+      </div>
+      <div style="border-top: 2px solid black;" class="pad-bottom-lg pad-top-lg text-center row">
+        <h1 style="font-size: 100px" class="text-center text-xxl push-lg">{{data.remaining.remainingCodes}}</h1>
       </div>
     </mat-card>
     <div *ngIf="data.accessCodeVisitor" style="margin: 8px;" class="row text-right">

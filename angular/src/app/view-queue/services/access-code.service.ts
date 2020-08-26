@@ -6,6 +6,7 @@ import { AccessCode, Pageable, FilterAccessCode } from 'src/app/shared/backendMo
 import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { map, filter } from 'rxjs/operators';
+import { RemainingCodes } from '../../shared/backendModels/interfaces'
 
 @Injectable({
   providedIn: 'root'
@@ -63,5 +64,12 @@ export class AccessCodeService {
     accessCode.visitorId = visitorId;
     accessCode.queueId = queueId;
     return this.http.post<AccessCode>(`${this.baseUrl}` + '/accesscodemanagement/v1/accesscode/', accessCode);
+  }
+
+  getRemainingCodesCount(visitorId: number, queueId: number): Observable<RemainingCodes> {
+    const accessCode: AccessCode = new AccessCode();
+    accessCode.visitorId = visitorId;
+    accessCode.queueId = queueId;
+    return this.http.post<RemainingCodes>(this.baseUrl + '/accesscodemanagement/v1/accesscode/remaining', accessCode);
   }
 }

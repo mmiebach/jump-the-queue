@@ -24,23 +24,25 @@ import com.devonfw.application.jtqj.queuemanagement.logic.base.usecase.AbstractQ
 @Transactional
 public class UcFindQueueImpl extends AbstractQueueUc implements UcFindQueue {
 
-	/** Logger instance. */
-	private static final Logger LOG = LoggerFactory.getLogger(UcFindQueueImpl.class);
+  /** Logger instance. */
+  private static final Logger LOG = LoggerFactory.getLogger(UcFindQueueImpl.class);
 
-	@Override
-	public QueueEto findQueue(long id) {
-		LOG.debug("Get Queue with id {} from database.", id);
-		Optional<QueueEntity> foundEntity = getQueueRepository().findById(id);
-		if (foundEntity.isPresent())
-			return getBeanMapper().map(foundEntity.get(), QueueEto.class);
-		else
-			return null;
-	}
+  @Override
+  public QueueEto findQueue(long id) {
 
-	@Override
-	public Page<QueueEto> findQueues(QueueSearchCriteriaTo criteria) {
-		Page<QueueEntity> queues = getQueueRepository().findByCriteria(criteria);
-		return mapPaginatedEntityList(queues, QueueEto.class);
-	}
+    LOG.debug("Get Queue with id {} from database.", id);
+    Optional<QueueEntity> foundEntity = getQueueRepository().findById(id);
+    if (foundEntity.isPresent())
+      return getBeanMapper().map(foundEntity.get(), QueueEto.class);
+    else
+      return null;
+  }
+
+  @Override
+  public Page<QueueEto> findQueues(QueueSearchCriteriaTo criteria) {
+
+    Page<QueueEntity> queues = getQueueRepository().findByCriteria(criteria);
+    return mapPaginatedEntityList(queues, QueueEto.class);
+  }
 
 }

@@ -11,32 +11,36 @@ import com.devonfw.application.jtqj.queuemanagement.logic.api.to.QueueSearchCrit
 import com.devonfw.application.jtqj.queuemanagement.service.api.rest.QueuemanagementRestService;
 
 /**
- * The service implementation for REST calls in order to execute the logic of
- * component {@link Queuemanagement}.
+ * The service implementation for REST calls in order to execute the logic of component {@link Queuemanagement}.
  */
 @Named("QueuemanagementRestService")
 public class QueuemanagementRestServiceImpl implements QueuemanagementRestService {
 
-	@Inject
-	private Queuemanagement queuemanagement;
+  @Inject
+  private Queuemanagement queuemanagement;
 
-	@Override
-	public QueueEto getQueue(long id) {
-		return this.queuemanagement.findQueue(id);
-	}
+  @Override
+  public QueueEto getQueue(long id) {
 
-	@Override
-	public QueueEto saveQueue(QueueEto queue) {
-		return this.queuemanagement.saveQueue(queue);
-	}
+    return this.queuemanagement.findQueue(id);
+  }
 
-	@Override
-	public void deleteQueue(long id) {
-		this.queuemanagement.deleteQueue(id);
-	}
+  @Override
+  public QueueEto saveQueue(QueueEto queue) {
 
-	@Override
-	public Page<QueueEto> findQueues(QueueSearchCriteriaTo searchCriteriaTo) {
-		return this.queuemanagement.findQueues(searchCriteriaTo);
-	}
+    return this.queuemanagement.saveQueue(queue);
+  }
+
+  @Override
+  public void deleteQueue(long id) {
+
+    this.queuemanagement.deleteQueue(id);
+  }
+
+  @Override
+  public Page<QueueEto> findQueues(QueueSearchCriteriaTo searchCriteriaTo) {
+
+    return this.queuemanagement.findQueues(searchCriteriaTo);
+  }
+
 }

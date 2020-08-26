@@ -3,6 +3,7 @@ package com.devonfw.application.jtqj.accesscodemanagement.logic.impl.usecase;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.inject.Inject;
 import javax.inject.Named;
 
 import org.slf4j.Logger;
@@ -19,8 +20,10 @@ import com.devonfw.application.jtqj.accesscodemanagement.dataaccess.api.AccessCo
 import com.devonfw.application.jtqj.accesscodemanagement.logic.api.to.AccessCodeCto;
 import com.devonfw.application.jtqj.accesscodemanagement.logic.api.to.AccessCodeEto;
 import com.devonfw.application.jtqj.accesscodemanagement.logic.api.to.AccessCodeSearchCriteriaTo;
+import com.devonfw.application.jtqj.accesscodemanagement.logic.api.to.RemainingCodes;
 import com.devonfw.application.jtqj.accesscodemanagement.logic.api.usecase.UcFindAccessCode;
 import com.devonfw.application.jtqj.accesscodemanagement.logic.base.usecase.AbstractAccessCodeUc;
+import com.devonfw.application.jtqj.queuemanagement.logic.api.Queuemanagement;
 import com.devonfw.application.jtqj.queuemanagement.logic.api.to.QueueEto;
 import com.devonfw.application.jtqj.visitormanagement.logic.api.to.VisitorEto;
 
@@ -33,36 +36,58 @@ import com.devonfw.application.jtqj.visitormanagement.logic.api.to.VisitorEto;
 @Primary
 public class UcFindAccessCodeImpl extends AbstractAccessCodeUc implements UcFindAccessCode {
 
-	/** Logger instance. */
-	private static final Logger LOG = LoggerFactory.getLogger(UcFindAccessCodeImpl.class);
+  /** Logger instance. */
+  private static final Logger LOG = LoggerFactory.getLogger(UcFindAccessCodeImpl.class);
 
-	@Override
-	public AccessCodeCto findAccessCodeCto(long id) {
-		LOG.debug("Get AccessCodeCto with id {} from database.", id);
-		AccessCodeEntity entity = getAccessCodeRepository().find(id);
-		AccessCodeCto cto = new AccessCodeCto();
-		cto.setAccessCode(getBeanMapper().map(entity, AccessCodeEto.class));
-		cto.setVisitor(getBeanMapper().map(entity.getVisitor(), VisitorEto.class));
-		cto.setQueue(getBeanMapper().map(entity.getQueue(), QueueEto.class));
+  @Inject
+  private Queuemanagement queuemanagement;
 
-		return cto;
-	}
+  @Override
+  public AccessCodeCto findAccessCodeCto(long id) {
 
-	@Override
-	public Page<AccessCodeCto> findAccessCodeCtos(AccessCodeSearchCriteriaTo criteria) {
+    LOG.debug("Get AccessCodeCto with id {} from database.", id);
+    AccessCodeEntity entity = getAccessCodeRepository().find(id);
+    AccessCodeCto cto = new AccessCodeCto();
+    cto.setAccessCode(getBeanMapper().map(entity, AccessCodeEto.class));
+    cto.setVisitor(getBeanMapper().map(entity.getVisitor(), VisitorEto.class));
+    cto.setQueue(getBeanMapper().map(entity.getQueue(), QueueEto.class));
 
-		Page<AccessCodeEntity> accesscodes = getAccessCodeRepository().findByCriteria(criteria);
-		List<AccessCodeCto> ctos = new ArrayList<>();
-		for (AccessCodeEntity entity : accesscodes.getContent()) {
-			AccessCodeCto cto = new AccessCodeCto();
-			cto.setAccessCode(getBeanMapper().map(entity, AccessCodeEto.class));
-			cto.setVisitor(getBeanMapper().map(entity.getVisitor(), VisitorEto.class));
-			cto.setQueue(getBeanMapper().map(entity.getQueue(), QueueEto.class));
-			ctos.add(cto);
-		}
-		Pageable pagResultTo = PageRequest.of(criteria.getPageable().getPageNumber(),
-				criteria.getPageable().getPageSize());
+    return cto;
+  }
 
-		return new PageImpl<>(ctos, pagResultTo, accesscodes.getTotalElements());
-	}
+  @Override
+  public Page<AccessCodeCto> findAccessCodeCtos(AccessCodeSearchCriteriaTo criteria) {
+
+    Page<AccessCodeEntity> accesscodes = getAccessCodeRepository().findByCriteria(criteria);
+    List<AccessCodeCto> ctos = new ArrayList<>();
+    for (AccessCodeEntity entity : accesscodes.getContent()) {
+      AccessCodeCto cto = new AccessCodeCto();
+      cto.setAccessCode(getBeanMapper().map(entity, AccessCodeEto.class));
+      cto.setVisitor(getBeanMapper().map(entity.getVisitor(), VisitorEto.class));
+      cto.setQueue(getBeanMapper().map(entity.getQueue(), QueueEto.class));
+      ctos.add(cto);
+    }
+    Pageable pagResultTo = PageRequest.of(criteria.getPageable().getPageNumber(), criteria.getPageable().getPageSize());
+
+    return new PageImpl<>(ctos, pagResultTo, accesscodes.getTotalElements());
+  }
+
+  @Override
+  public RemainingCodes findRemainingCodes(AccessCodeEto accessCode) {
+
+    String CurrentAccessCode = this.queuemanagement.findQueue(accessCode.getQueueId()).getCurrentNumber();
+    String AccessCode = findAccessCodeCto(accessCode.getVisitorId()).getAccessCode().getTicketNumber();
+    RemainingCodes remaining = new RemainingCodes();
+    long accessCodeNumber = Long.parseLong(AccessCode.substring(1));
+    long currentAccessCodeNumber = Long.parseLong(CurrentAccessCode.substring(1));
+
+    if (accessCode.getVisitorId() == 0) {
+      remaining.setRemainingCodes(0);
+    } else {
+      remaining.setRemainingCodes((int) Math.abs(accessCodeNumber - currentAccessCodeNumber));
+    }
+    System.out.println(remaining.getRemainingCodes());
+    return remaining;
+  }
+
 }

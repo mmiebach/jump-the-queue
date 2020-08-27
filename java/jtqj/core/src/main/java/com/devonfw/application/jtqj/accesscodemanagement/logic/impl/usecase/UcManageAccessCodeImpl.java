@@ -149,11 +149,8 @@ public class UcManageAccessCodeImpl extends AbstractAccessCodeUc implements UcMa
   public EstimatedTime getEstimatedTime(AccessCodeEto accessCodeEto) {
 
     String currentAccessCode = this.queuemanagement.findQueue(accessCodeEto.getQueueId()).getCurrentNumber();
-    System.out.println(currentAccessCode);
     AccessCodeSearchCriteriaTo criteria = new AccessCodeSearchCriteriaTo();
-    System.out.println("111111111111111111111111");
     criteria.setVisitorId(accessCodeEto.getVisitorId());
-    System.out.println("22222222222222222222222");
     List<AccessCodeEntity> accesscodes = getAccessCodeRepository().findAll();
     AccessCodeCto accessCodeCto = new AccessCodeCto();
     for (int i = 0; i < accesscodes.size(); i++) {
@@ -164,21 +161,14 @@ public class UcManageAccessCodeImpl extends AbstractAccessCodeUc implements UcMa
       }
     }
     String accessCode = accessCodeCto.getAccessCode().getTicketNumber();
-    System.out.println("333333333333333333333333333");
-    System.out.println(accesscodes);
-    System.out.println("4444444444444444444444444444");
-    System.out.println(accessCode);
     EstimatedTime estimatedTime = new EstimatedTime();
     long accessCodeNumber = Long.parseLong(accessCode.substring(1));
     long currentAccessCodeNumber = Long.parseLong(currentAccessCode.substring(1));
-    System.out.println(accessCodeNumber);
-    System.out.println(currentAccessCodeNumber);
     if (accessCodeEto.getVisitorId() == 0) {
       estimatedTime.setEstimatedTime(0);
     } else {
       estimatedTime.setEstimatedTime((int) Math.abs(accessCodeNumber - currentAccessCodeNumber));
     }
-    System.out.println(estimatedTime.getEstimatedTime());
     return estimatedTime;
   }
 

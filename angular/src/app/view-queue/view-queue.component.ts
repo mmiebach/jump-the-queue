@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { AccessCode, Queue } from '../shared/backendModels/interfaces';
+import { AccessCode, Queue, EstimatedTime } from '../shared/backendModels/interfaces';
 import { Observable, of, throwError } from 'rxjs';
 import { AccessCodeService } from './services/access-code.service';
 import { tap, catchError } from 'rxjs/operators';
@@ -16,6 +16,7 @@ export class ViewQueueComponent implements OnInit {
   accessCodeAttended$: Observable<AccessCode>;
   accessCodeVisitor$: Observable<AccessCode>;
   queue$: Observable<Queue>;
+  estimatedTime$: Observable<EstimatedTime>;
 
   constructor(private accessCodeService: AccessCodeService, private queueService: QueueService, private authService: AuthService) { }
 
@@ -32,5 +33,9 @@ export class ViewQueueComponent implements OnInit {
   onLeaveQueue(accessCodeId: number): void {
     this.accessCodeService.deleteAccessCode(accessCodeId);
     this.accessCodeVisitor$ = null;
+  }
+
+  onEstimatedTime(queueId: number): void{
+    this.estimatedTime$ = this.accessCodeService.getEstimatedTime(this.authService.getUserId(), queueId);
   }
 }

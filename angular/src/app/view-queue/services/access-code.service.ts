@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { AuthService } from 'src/app/core/authentication/auth.service';
 import { Router } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
-import { AccessCode, Pageable, FilterAccessCode } from 'src/app/shared/backendModels/interfaces';
+import { AccessCode, Pageable, FilterAccessCode, EstimatedTime } from 'src/app/shared/backendModels/interfaces';
 import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { map, filter } from 'rxjs/operators';
@@ -63,5 +63,12 @@ export class AccessCodeService {
     accessCode.visitorId = visitorId;
     accessCode.queueId = queueId;
     return this.http.post<AccessCode>(`${this.baseUrl}` + '/accesscodemanagement/v1/accesscode/', accessCode);
+  }
+
+  getEstimatedTime(visitorId: number, queueId: number){
+      const accessCode: AccessCode = new AccessCode();
+      accessCode.visitorId = visitorId;
+      accessCode.queueId = queueId;
+      return this.http.post<EstimatedTime>(`${this.baseUrl}` + '/accesscodemanagement/v1/accesscode/estimated/', accessCode);
   }
 }

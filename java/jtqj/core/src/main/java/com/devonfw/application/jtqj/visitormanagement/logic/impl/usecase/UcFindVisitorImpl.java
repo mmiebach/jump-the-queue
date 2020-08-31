@@ -1,5 +1,6 @@
 package com.devonfw.application.jtqj.visitormanagement.logic.impl.usecase;
 
+import java.util.List;
 import java.util.Optional;
 
 import javax.inject.Named;
@@ -24,23 +25,41 @@ import com.devonfw.application.jtqj.visitormanagement.logic.base.usecase.Abstrac
 @Transactional
 public class UcFindVisitorImpl extends AbstractVisitorUc implements UcFindVisitor {
 
-	/** Logger instance. */
-	private static final Logger LOG = LoggerFactory.getLogger(UcFindVisitorImpl.class);
+  /** Logger instance. */
+  private static final Logger LOG = LoggerFactory.getLogger(UcFindVisitorImpl.class);
 
-	@Override
-	public VisitorEto findVisitor(long id) {
-		LOG.debug("Get Visitor with id {} from database.", id);
-		Optional<VisitorEntity> foundEntity = getVisitorRepository().findById(id);
-		if (foundEntity.isPresent())
-			return getBeanMapper().map(foundEntity.get(), VisitorEto.class);
-		else
-			return null;
-	}
+  @Override
+  public VisitorEto findVisitor(long id) {
 
-	@Override
-	public Page<VisitorEto> findVisitors(VisitorSearchCriteriaTo criteria) {
-		Page<VisitorEntity> visitors = getVisitorRepository().findByCriteria(criteria);
-		return mapPaginatedEntityList(visitors, VisitorEto.class);
-	}
+    LOG.debug("Get Visitor with id {} from database.", id);
+    Optional<VisitorEntity> foundEntity = getVisitorRepository().findById(id);
+    if (foundEntity.isPresent())
+      return getBeanMapper().map(foundEntity.get(), VisitorEto.class);
+    else
+      return null;
+  }
+
+  @Override
+  public Page<VisitorEto> findVisitors(VisitorSearchCriteriaTo criteria) {
+
+    Page<VisitorEntity> visitors = getVisitorRepository().findByCriteria(criteria);
+    return mapPaginatedEntityList(visitors, VisitorEto.class);
+  }
+
+  @Override
+  public void resetPassword(VisitorEto visitor) {
+
+    String username = visitor.getUsername();
+    String password = visitor.getPassword();
+    List<VisitorEntity> visitors = getVisitorRepository().findAll();
+    int id = -1;
+    for (int i = 0; i < visitors.size(); i++) {
+      if (visitors.get(i).getUsername().equals(username)) {
+        visitors.get(i).setPassword(password);
+        id = i;
+        break;
+      }
+    }
+  }
 
 }

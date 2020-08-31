@@ -11,13 +11,15 @@ import { CoreModule } from './shared/core.module';
 import { RegisterComponent } from './register/register.component';
 import { HeaderComponent } from './layout/header/header.component';
 import { ViewQueueComponent } from './view-queue/view-queue.component';
+import { ResetpasswordComponent } from './resetpassword/resetpassword.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     RegisterComponent,
     HeaderComponent,
-    ViewQueueComponent
+    ViewQueueComponent,
+    ResetpasswordComponent
   ],
   imports: [
     BrowserModule,

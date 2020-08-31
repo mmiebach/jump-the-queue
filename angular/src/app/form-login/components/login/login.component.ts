@@ -21,4 +21,7 @@ export class LoginComponent implements OnInit {
   submitLogin(loginFormValues): void {
     this.loginService.login(loginFormValues.username, loginFormValues.password);
   }
+  onForgottPassword(): void{
+    this.router.navigate(['ForgottPassword']);
+  }
 }

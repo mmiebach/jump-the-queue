@@ -17,4 +17,8 @@ export class RegisterService {
     return this.http.post<Visitor>(`${this.baseUrl}` + '/visitormanagement/v1/visitor', visitor);
   }
 
+  reset(visitor: Visitor): void {
+     this.http.post(`${this.baseUrl}` + '/visitormanagement/v1/visitor/reset', visitor);
+  }
+
 }

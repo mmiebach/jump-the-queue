@@ -22,28 +22,29 @@ import com.devonfw.application.jtqj.visitormanagement.logic.base.usecase.Abstrac
 @Transactional
 public class UcManageVisitorImpl extends AbstractVisitorUc implements UcManageVisitor {
 
-	/** Logger instance. */
-	private static final Logger LOG = LoggerFactory.getLogger(UcManageVisitorImpl.class);
+  /** Logger instance. */
+  private static final Logger LOG = LoggerFactory.getLogger(UcManageVisitorImpl.class);
 
-	@Override
-	public boolean deleteVisitor(long visitorId) {
+  @Override
+  public boolean deleteVisitor(long visitorId) {
 
-		VisitorEntity visitor = getVisitorRepository().find(visitorId);
-		getVisitorRepository().delete(visitor);
-		LOG.debug("The visitor with id '{}' has been deleted.", visitorId);
-		return true;
-	}
+    VisitorEntity visitor = getVisitorRepository().find(visitorId);
+    getVisitorRepository().delete(visitor);
+    LOG.debug("The visitor with id '{}' has been deleted.", visitorId);
+    return true;
+  }
 
-	@Override
-	public VisitorEto saveVisitor(VisitorEto visitor) {
+  @Override
+  public VisitorEto saveVisitor(VisitorEto visitor) {
 
-		Objects.requireNonNull(visitor, "visitor");
+    Objects.requireNonNull(visitor, "visitor");
 
-		VisitorEntity visitorEntity = getBeanMapper().map(visitor, VisitorEntity.class);
+    VisitorEntity visitorEntity = getBeanMapper().map(visitor, VisitorEntity.class);
 
-		// initialize, validate visitorEntity here if necessary
-		VisitorEntity resultEntity = getVisitorRepository().save(visitorEntity);
-		LOG.debug("Visitor with id '{}' has been created.", resultEntity.getId());
-		return getBeanMapper().map(resultEntity, VisitorEto.class);
-	}
+    // initialize, validate visitorEntity here if necessary
+    VisitorEntity resultEntity = getVisitorRepository().save(visitorEntity);
+    LOG.debug("Visitor with id '{}' has been created.", resultEntity.getId());
+    return getBeanMapper().map(resultEntity, VisitorEto.class);
+  }
+
 }

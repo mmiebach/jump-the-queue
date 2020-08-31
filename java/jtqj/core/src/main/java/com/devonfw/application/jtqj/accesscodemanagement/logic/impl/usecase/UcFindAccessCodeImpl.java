@@ -75,19 +75,41 @@ public class UcFindAccessCodeImpl extends AbstractAccessCodeUc implements UcFind
   @Override
   public RemainingCodes findRemainingCodes(AccessCodeEto accessCode) {
 
-    String CurrentAccessCode = this.queuemanagement.findQueue(accessCode.getQueueId()).getCurrentNumber();
-    String AccessCode = findAccessCodeCto(accessCode.getVisitorId()).getAccessCode().getTicketNumber();
-    RemainingCodes remaining = new RemainingCodes();
-    long accessCodeNumber = Long.parseLong(AccessCode.substring(1));
-    long currentAccessCodeNumber = Long.parseLong(CurrentAccessCode.substring(1));
-
-    if (accessCode.getVisitorId() == 0) {
-      remaining.setRemainingCodes(0);
-    } else {
-      remaining.setRemainingCodes((int) Math.abs(accessCodeNumber - currentAccessCodeNumber));
+    System.out.println(accessCode.getQueueId());
+    String currentAccessCode = this.queuemanagement.findQueue(accessCode.getQueueId()).getCurrentNumber();
+    System.out.println("2");
+    AccessCodeSearchCriteriaTo criteria = new AccessCodeSearchCriteriaTo();
+    System.out.println("3");
+    criteria.setVisitorId(accessCode.getVisitorId());
+    System.out.println("4");
+    List<AccessCodeEntity> accesscodes = getAccessCodeRepository().findAll();
+    System.out.println("5");
+    AccessCodeCto accessCodeCto = new AccessCodeCto();
+    System.out.println("6");
+    for (int i = 0; i < accesscodes.size(); i++) {
+      if (findAccessCodeCto(accesscodes.get(i).getId()).getVisitor().getId() == accessCode.getVisitorId()) {
+        accessCodeCto = findAccessCodeCto(accesscodes.get(i).getId());
+        System.out.println(accessCodeCto);
+        break;
+      }
     }
-    System.out.println(remaining.getRemainingCodes());
-    return remaining;
+    String accessCode1 = accessCodeCto.getAccessCode().getTicketNumber();
+    System.out.println("1");
+    RemainingCodes remainingCodes = new RemainingCodes();
+    System.out.println("2");
+    long accessCodeNumber = Long.parseLong(accessCode1.substring(1));
+    System.out.println("3");
+    long currentAccessCodeNumber = Long.parseLong(currentAccessCode.substring(1));
+    System.out.println("4");
+    if (accessCode.getVisitorId() == 0) {
+      remainingCodes.setRemainingCodes(0);
+      System.out.println("if");
+    } else {
+      remainingCodes.setRemainingCodes((int) Math.abs(accessCodeNumber - currentAccessCodeNumber));
+      System.out.println("else");
+    }
+    System.out.println(remainingCodes.getRemainingCodes());
+    return remainingCodes;
   }
 
 }

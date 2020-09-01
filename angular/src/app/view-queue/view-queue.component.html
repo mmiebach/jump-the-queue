@@ -14,9 +14,6 @@
         <div class="text-center row">
           <h1 style="font-size: 75px; margin:0px;" class="text-center text-xxl push-left-md">{{data.accessCodeVisitor.ticketNumber}}</h1> 
         </div>
-        <div style="border-bottom: 2px solid black;" class="row">
-          <p class="push-left-md">Currently estimate time: 10:00:00</p>
-        </div>
       </div>
       <div class="text-center">
         <div class="text-center row">
@@ -24,6 +21,14 @@
         </div>
         <div class="row">
           <h1 style="font-size: 100px" class="text-center text-xxl push-lg" >{{data.accessCodeAttended?.ticketNumber}}</h1> 
+        </div>
+      </div>
+      <div class="text-center">
+        <div class="text-center row">
+          <h1 style="margin-bottom:10px;" class="text-left text-xl push-md">Remaining codes:</h1> 
+        </div>
+        <div class="row">
+          <h1 style="font-size: 100px" class="text-center text-xxl push-lg" >{{EstimatedTime(data.queue.id)}} minutes</h1> 
         </div>
       </div>
       <div style="border-top: 2px solid black;" class="pad-bottom-lg pad-top-lg text-center row" *ngIf="data.accessCodeVisitor === null">

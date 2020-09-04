@@ -65,7 +65,7 @@ export class AccessCodeService {
     return this.http.post<AccessCode>(`${this.baseUrl}` + '/accesscodemanagement/v1/accesscode/', accessCode);
   }
 
-  getEstimatedTime(accessCode: AccessCode) {
+  getEstimatedTime(accessCode: AccessCode): Observable<EstimatedTime> {
     return this.http.post<EstimatedTime>(`${this.baseUrl}` + '/accesscodemanagement/v1/accesscode/estimatedtime/', accessCode);
   }
 }

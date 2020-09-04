@@ -148,26 +148,32 @@ public class UcManageAccessCodeImpl extends AbstractAccessCodeUc implements UcMa
   @Override
   public EstimatedTime getEstimatedTime(AccessCodeEto accessCodeEto) {
 
-    String currentAccessCode = this.queuemanagement.findQueue(accessCodeEto.getQueueId()).getCurrentNumber();
-    AccessCodeSearchCriteriaTo criteria = new AccessCodeSearchCriteriaTo();
-    criteria.setVisitorId(accessCodeEto.getVisitorId());
-    List<AccessCodeEntity> accesscodes = getAccessCodeRepository().findAll();
-    AccessCodeCto accessCodeCto = new AccessCodeCto();
-    for (int i = 0; i < accesscodes.size(); i++) {
-      if (this.ucFindAccessCode.findAccessCodeCto(accesscodes.get(i).getId()).getVisitor().getId() == accessCodeEto
-          .getVisitorId()) {
-        accessCodeCto = this.ucFindAccessCode.findAccessCodeCto(accesscodes.get(i).getId());
-        break;
-      }
-    }
-    String accessCode = accessCodeCto.getAccessCode().getTicketNumber();
+    System.out.println(accessCodeEto.getQueueId());
+    System.out.println(accessCodeEto.getVisitorId());
     EstimatedTime estimatedTime = new EstimatedTime();
-    long accessCodeNumber = Long.parseLong(accessCode.substring(1));
-    long currentAccessCodeNumber = Long.parseLong(currentAccessCode.substring(1));
-    if (accessCodeEto.getVisitorId() == 0) {
-      estimatedTime.setEstimatedTime(0);
+    if (accessCodeEto.getQueueId() == null) {
+      estimatedTime.setEstimatedTime(1000);
     } else {
-      estimatedTime.setEstimatedTime((int) Math.abs(accessCodeNumber - currentAccessCodeNumber) * 3);
+      String currentAccessCode = this.queuemanagement.findQueue(accessCodeEto.getQueueId()).getCurrentNumber();
+      AccessCodeSearchCriteriaTo criteria = new AccessCodeSearchCriteriaTo();
+      criteria.setVisitorId(accessCodeEto.getVisitorId());
+      List<AccessCodeEntity> accesscodes = getAccessCodeRepository().findAll();
+      AccessCodeCto accessCodeCto = new AccessCodeCto();
+      for (int i = 0; i < accesscodes.size(); i++) {
+        if (this.ucFindAccessCode.findAccessCodeCto(accesscodes.get(i).getId()).getVisitor().getId() == accessCodeEto
+            .getVisitorId()) {
+          accessCodeCto = this.ucFindAccessCode.findAccessCodeCto(accesscodes.get(i).getId());
+          break;
+        }
+      }
+      String accessCode = accessCodeCto.getAccessCode().getTicketNumber();
+      long accessCodeNumber = Long.parseLong(accessCode.substring(1));
+      long currentAccessCodeNumber = Long.parseLong(currentAccessCode.substring(1));
+      if (accessCodeEto.getVisitorId() == 0) {
+        estimatedTime.setEstimatedTime(0);
+      } else {
+        estimatedTime.setEstimatedTime((int) Math.abs(accessCodeNumber - currentAccessCodeNumber) * 3);
+      }
     }
     return estimatedTime;
   }

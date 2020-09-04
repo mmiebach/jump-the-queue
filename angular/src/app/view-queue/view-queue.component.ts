@@ -1,9 +1,11 @@
 import { Component, OnInit } from '@angular/core';
-import { AccessCode, Queue } from '../shared/backendModels/interfaces';
+import { AccessCode, Queue, EstimatedTime } from '../shared/backendModels/interfaces';
 import { Observable } from 'rxjs';
 import { AccessCodeService } from './services/access-code.service';
 import { AuthService } from '../core/authentication/auth.service';
 import { QueueService } from './services/queue.service';
+import { queue } from 'rxjs/internal/scheduler/queue';
+import { map } from 'rxjs/operators';
 
 @Component({
   selector: 'app-view-queue',
@@ -15,14 +17,16 @@ export class ViewQueueComponent implements OnInit {
   accessCodeAttended$: Observable<AccessCode>;
   accessCodeVisitor$: Observable<AccessCode>;
   queue$: Observable<Queue>;
-  estimatedTime: number;
-
+  estimatedTime$: Observable<EstimatedTime>;
   constructor(private accessCodeService: AccessCodeService, private queueService: QueueService, private authService: AuthService) { }
 
   ngOnInit() {
     this.accessCodeAttended$ = this.accessCodeService.getCurrentlyAttendedAccessCode();
     this.accessCodeVisitor$ = this.accessCodeService.getVisitorAccessCode(this.authService.getUserId());
     this.queue$ = this.queueService.getActiveQueue();
+    setInterval(() => {
+      this.EstimatedTime();
+      }, 10000);
   }
 
   onJoinQueue(queueId: number): void {
@@ -34,15 +38,14 @@ export class ViewQueueComponent implements OnInit {
     this.accessCodeVisitor$ = null;
   }
 
-  EstimatedTime(queueId: number, $interval) {
+
+  EstimatedTime() {
     const accessCode: AccessCode = new AccessCode();
-    accessCode.visitorId =  this.authService.getUserId();
-    accessCode.queueId = queueId;
-    this.accessCodeService.getEstimatedTime(accessCode).subscribe(
-      (e) => {
-        this.estimatedTime = e.estimatedTime;
-      }
+    this.queueService.getActiveQueue().subscribe(
+      // tslint:disable-next-line: no-shadowed-variable
+      queue => accessCode.queueId = queue.id
     );
-    return this.estimatedTime;
+    accessCode.visitorId =  this.authService.getUserId();
+    this.estimatedTime$ = this.accessCodeService.getEstimatedTime(accessCode);
+    }
   }
-}

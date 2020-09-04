@@ -19,6 +19,7 @@ import com.devonfw.application.jtqj.accesscodemanagement.dataaccess.api.AccessCo
 import com.devonfw.application.jtqj.accesscodemanagement.logic.api.to.AccessCodeCto;
 import com.devonfw.application.jtqj.accesscodemanagement.logic.api.to.AccessCodeEto;
 import com.devonfw.application.jtqj.accesscodemanagement.logic.api.to.AccessCodeSearchCriteriaTo;
+import com.devonfw.application.jtqj.accesscodemanagement.logic.api.to.RemainingCodes;
 import com.devonfw.application.jtqj.accesscodemanagement.logic.api.usecase.UcFindAccessCode;
 import com.devonfw.application.jtqj.accesscodemanagement.logic.base.usecase.AbstractAccessCodeUc;
 import com.devonfw.application.jtqj.queuemanagement.logic.api.to.QueueEto;
@@ -33,36 +34,45 @@ import com.devonfw.application.jtqj.visitormanagement.logic.api.to.VisitorEto;
 @Primary
 public class UcFindAccessCodeImpl extends AbstractAccessCodeUc implements UcFindAccessCode {
 
-	/** Logger instance. */
-	private static final Logger LOG = LoggerFactory.getLogger(UcFindAccessCodeImpl.class);
+  /** Logger instance. */
+  private static final Logger LOG = LoggerFactory.getLogger(UcFindAccessCodeImpl.class);
 
-	@Override
-	public AccessCodeCto findAccessCodeCto(long id) {
-		LOG.debug("Get AccessCodeCto with id {} from database.", id);
-		AccessCodeEntity entity = getAccessCodeRepository().find(id);
-		AccessCodeCto cto = new AccessCodeCto();
-		cto.setAccessCode(getBeanMapper().map(entity, AccessCodeEto.class));
-		cto.setVisitor(getBeanMapper().map(entity.getVisitor(), VisitorEto.class));
-		cto.setQueue(getBeanMapper().map(entity.getQueue(), QueueEto.class));
+  @Override
+  public AccessCodeCto findAccessCodeCto(long id) {
 
-		return cto;
-	}
+    LOG.debug("Get AccessCodeCto with id {} from database.", id);
+    AccessCodeEntity entity = getAccessCodeRepository().find(id);
+    AccessCodeCto cto = new AccessCodeCto();
+    cto.setAccessCode(getBeanMapper().map(entity, AccessCodeEto.class));
+    cto.setVisitor(getBeanMapper().map(entity.getVisitor(), VisitorEto.class));
+    cto.setQueue(getBeanMapper().map(entity.getQueue(), QueueEto.class));
 
-	@Override
-	public Page<AccessCodeCto> findAccessCodeCtos(AccessCodeSearchCriteriaTo criteria) {
+    return cto;
+  }
 
-		Page<AccessCodeEntity> accesscodes = getAccessCodeRepository().findByCriteria(criteria);
-		List<AccessCodeCto> ctos = new ArrayList<>();
-		for (AccessCodeEntity entity : accesscodes.getContent()) {
-			AccessCodeCto cto = new AccessCodeCto();
-			cto.setAccessCode(getBeanMapper().map(entity, AccessCodeEto.class));
-			cto.setVisitor(getBeanMapper().map(entity.getVisitor(), VisitorEto.class));
-			cto.setQueue(getBeanMapper().map(entity.getQueue(), QueueEto.class));
-			ctos.add(cto);
-		}
-		Pageable pagResultTo = PageRequest.of(criteria.getPageable().getPageNumber(),
-				criteria.getPageable().getPageSize());
+  @Override
+  public Page<AccessCodeCto> findAccessCodeCtos(AccessCodeSearchCriteriaTo criteria) {
 
-		return new PageImpl<>(ctos, pagResultTo, accesscodes.getTotalElements());
-	}
+    Page<AccessCodeEntity> accesscodes = getAccessCodeRepository().findByCriteria(criteria);
+    List<AccessCodeCto> ctos = new ArrayList<>();
+    for (AccessCodeEntity entity : accesscodes.getContent()) {
+      AccessCodeCto cto = new AccessCodeCto();
+      cto.setAccessCode(getBeanMapper().map(entity, AccessCodeEto.class));
+      cto.setVisitor(getBeanMapper().map(entity.getVisitor(), VisitorEto.class));
+      cto.setQueue(getBeanMapper().map(entity.getQueue(), QueueEto.class));
+      ctos.add(cto);
+    }
+    Pageable pagResultTo = PageRequest.of(criteria.getPageable().getPageNumber(), criteria.getPageable().getPageSize());
+
+    return new PageImpl<>(ctos, pagResultTo, accesscodes.getTotalElements());
+  }
+
+  @Override
+  public RemainingCodes findRemainingCodes(AccessCodeEto accessCodeEto) {
+
+    RemainingCodes remainingCodes = new RemainingCodes();
+    remainingCodes.setRemainingCodes(999);
+    // TODO: code for remainingCodes
+    return remainingCodes;
+  }
 }

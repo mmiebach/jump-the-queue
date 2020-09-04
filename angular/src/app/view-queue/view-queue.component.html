@@ -30,6 +30,14 @@
         <button mat-raised-button (click)="onJoinQueue(data.queue.id)" color="primary" class="text-upper">Join the queue</button> 
       </div>
     </mat-card>
+    <div class="text-center">
+      <div class="text-center row">
+        <h1 style="margin-bottom:10px;" class="text-left text-xl push-md">Estimated Time:</h1> 
+      </div>
+      <div class="row">
+        <h1 style="font-size: 100px" class="text-center text-xxl push-lg" >XXX minutes</h1> 
+      </div>
+    </div>
     <div *ngIf="data.accessCodeVisitor" style="margin: 8px;" class="row text-right">
         <button mat-raised-button (click)="onLeaveQueue(data.accessCodeVisitor.id)" color="primary" class="text-upper">Leave the queue</button> 
     </div>

@@ -15,57 +15,71 @@ import com.devonfw.application.jtqj.accesscodemanagement.logic.api.Accesscodeman
 import com.devonfw.application.jtqj.accesscodemanagement.logic.api.to.AccessCodeCto;
 import com.devonfw.application.jtqj.accesscodemanagement.logic.api.to.AccessCodeEto;
 import com.devonfw.application.jtqj.accesscodemanagement.logic.api.to.AccessCodeSearchCriteriaTo;
-import com.devonfw.application.jtqj.queuemanagement.logic.api.Queuemanagement;
-import com.devonfw.application.jtqj.queuemanagement.logic.api.to.QueueEto;
+import com.devonfw.application.jtqj.accesscodemanagement.logic.api.to.EstimatedTime;
+import com.devonfw.application.jtqj.accesscodemanagement.logic.api.to.RemainingCodes;
 
 /**
- * The service interface for REST calls in order to execute the logic of
- * component {@link Accesscodemanagement}.
+ * The service interface for REST calls in order to execute the logic of component {@link Accesscodemanagement}.
  */
 @Path("/accesscodemanagement/v1")
 @Consumes(MediaType.APPLICATION_JSON)
 @Produces(MediaType.APPLICATION_JSON)
 public interface AccesscodemanagementRestService {
 
-	/**
-	 * Delegates to {@link Accesscodemanagement#findAccessCodeCto}.
-	 *
-	 * @param id the ID of the {@link AccessCodeCto}
-	 * @return the {@link AccessCodeCto}
-	 */
-	@GET
-	@Path("/accesscode/cto/{id}/")
-	public AccessCodeCto getAccessCodeCto(@PathParam("id") long id);
+  /**
+   * Delegates to {@link Accesscodemanagement#findAccessCodeCto}.
+   *
+   * @param id the ID of the {@link AccessCodeCto}
+   * @return the {@link AccessCodeCto}
+   */
+  @GET
+  @Path("/accesscode/cto/{id}/")
+  public AccessCodeCto getAccessCodeCto(@PathParam("id") long id);
 
-	/**
-	 * Delegates to {@link Accesscodemanagement#findAccessCodeCtos}.
-	 *
-	 * @param searchCriteriaTo the pagination and search criteria to be used for
-	 *                         finding accesscodes.
-	 * @return the {@link Page list} of matching {@link AccessCodeCto}s.
-	 */
-	@Path("/accesscode/cto/search")
-	@POST
-	public Page<AccessCodeCto> findAccessCodeCtos(AccessCodeSearchCriteriaTo searchCriteriaTo);
+  /**
+   * Delegates to {@link Accesscodemanagement#findAccessCodeCtos}.
+   *
+   * @param searchCriteriaTo the pagination and search criteria to be used for finding accesscodes.
+   * @return the {@link Page list} of matching {@link AccessCodeCto}s.
+   */
+  @Path("/accesscode/cto/search")
+  @POST
+  public Page<AccessCodeCto> findAccessCodeCtos(AccessCodeSearchCriteriaTo searchCriteriaTo);
 
-	/**
-	 * Delegates to {@link Accesscodemanagement#saveAccessCode}.
-	 *
-	 * @param queue the {@link AccessCodeEto} to be saved
-	 * @return the recently created {@link AccessCodeEto}
-	 */
+  /**
+   * Delegates to {@link Accesscodemanagement#saveAccessCode}.
+   *
+   * @param queue the {@link AccessCodeEto} to be saved
+   * @return the recently created {@link AccessCodeEto}
+   */
 
-	@POST
-	@Path("/accesscode/")
-	public AccessCodeEto saveAccessCode(AccessCodeEto accessCodeEto);
+  @POST
+  @Path("/accesscode/")
+  public AccessCodeEto saveAccessCode(AccessCodeEto accessCodeEto);
 
-	/**
-	 * Delegates to {@link Accesscodemanagement#deleteAccessCode}.
-	 *
-	 * @param id ID of the {@link AccessCodeEto} to be deleted
-	 */
-	@DELETE
-	@Path("/accesscode/{id}/")
-	public void deleteAccessCode(@PathParam("id") long id);
+  /**
+   * Delegates to {@link Accesscodemanagement#deleteAccessCode}.
+   *
+   * @param id ID of the {@link AccessCodeEto} to be deleted
+   */
+  @DELETE
+  @Path("/accesscode/{id}/")
+  public void deleteAccessCode(@PathParam("id") long id);
+
+  /**
+   * @param accessCodeEto
+   * @return
+   */
+  @POST
+  @Path("/accesscode/estimatedtime/")
+  public EstimatedTime getEstimatedTime(AccessCodeEto accessCodeEto);
+
+  /**
+   * @param accessCode
+   * @return
+   */
+  @Path("/accesscode/remaining")
+  @POST
+  public RemainingCodes getRemainingCodes(AccessCodeEto accessCode);
 
 }

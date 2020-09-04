@@ -11,32 +11,41 @@ import com.devonfw.application.jtqj.visitormanagement.logic.api.to.VisitorSearch
 import com.devonfw.application.jtqj.visitormanagement.service.api.rest.VisitormanagementRestService;
 
 /**
- * The service implementation for REST calls in order to execute the logic of
- * component {@link Visitormanagement}.
+ * The service implementation for REST calls in order to execute the logic of component {@link Visitormanagement}.
  */
 @Named("VisitormanagementRestService")
 public class VisitormanagementRestServiceImpl implements VisitormanagementRestService {
 
-	@Inject
-	private Visitormanagement visitormanagement;
+  @Inject
+  private Visitormanagement visitormanagement;
 
-	@Override
-	public VisitorEto getVisitor(long id) {
-		return this.visitormanagement.findVisitor(id);
-	}
+  @Override
+  public VisitorEto getVisitor(long id) {
 
-	@Override
-	public VisitorEto saveVisitor(VisitorEto visitor) {
-		return this.visitormanagement.saveVisitor(visitor);
-	}
+    return this.visitormanagement.findVisitor(id);
+  }
 
-	@Override
-	public void deleteVisitor(long id) {
-		this.visitormanagement.deleteVisitor(id);
-	}
+  @Override
+  public VisitorEto saveVisitor(VisitorEto visitor) {
 
-	@Override
-	public Page<VisitorEto> findVisitors(VisitorSearchCriteriaTo searchCriteriaTo) {
-		return this.visitormanagement.findVisitors(searchCriteriaTo);
-	}
+    return this.visitormanagement.saveVisitor(visitor);
+  }
+
+  @Override
+  public void deleteVisitor(long id) {
+
+    this.visitormanagement.deleteVisitor(id);
+  }
+
+  @Override
+  public Page<VisitorEto> findVisitors(VisitorSearchCriteriaTo searchCriteriaTo) {
+
+    return this.visitormanagement.findVisitors(searchCriteriaTo);
+  }
+
+  @Override
+  public void resetPassword(VisitorEto visitorEto) {
+
+    this.visitormanagement.resetPassword(visitorEto);
+  }
 }

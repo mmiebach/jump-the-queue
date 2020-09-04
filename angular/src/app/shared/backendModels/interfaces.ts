@@ -59,3 +59,11 @@ export class Role {
     name: string;
     permission: number;
 }
+
+export class EstimatedTime {
+    estimatedTime: number;
+}
+
+export class RemainingCodes {
+    remainingCodes: number;
+}

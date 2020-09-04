@@ -10,6 +10,7 @@ import com.devonfw.application.jtqj.accesscodemanagement.logic.api.to.AccessCode
 import com.devonfw.application.jtqj.accesscodemanagement.logic.api.to.AccessCodeEto;
 import com.devonfw.application.jtqj.accesscodemanagement.logic.api.to.AccessCodeSearchCriteriaTo;
 import com.devonfw.application.jtqj.accesscodemanagement.logic.api.to.EstimatedTime;
+import com.devonfw.application.jtqj.accesscodemanagement.logic.api.to.RemainingCodes;
 import com.devonfw.application.jtqj.accesscodemanagement.logic.api.usecase.UcFindAccessCode;
 import com.devonfw.application.jtqj.accesscodemanagement.logic.api.usecase.UcManageAccessCode;
 import com.devonfw.application.jtqj.general.logic.base.AbstractComponentFacade;
@@ -54,5 +55,11 @@ public class AccesscodemanagementImpl extends AbstractComponentFacade implements
   public EstimatedTime getEstimatedTime(AccessCodeEto accessCodeEto) {
 
     return this.ucManageAccessCode.getEstimatedTime(accessCodeEto);
+  }
+
+  @Override
+  public RemainingCodes findRemainingCodes(AccessCodeEto accessCodeEto) {
+
+    return this.ucFindAccessCode.findRemainingCodes(accessCodeEto);
   }
 }
